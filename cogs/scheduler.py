@@ -9,8 +9,8 @@ from .worldstate import Worldstate # oh my gosh this is so jank
 # DEFAULT_CHANNEL = 152673197756514304
 # Production channel (SUMH Server)
 DEFAULT_CHANNEL = 699321779172409344
-POST_SORTIE_AT_TIME = "9:10"
-POST_BARO_AT_TIME = "7"
+POST_SORTIE_AT_TIME = "16:10"
+POST_BARO_AT_TIME = "14"
 
 class Scheduler(commands.Cog):
     def __init__(self, client):
@@ -19,7 +19,7 @@ class Scheduler(commands.Cog):
 
     @tasks.loop(minutes=1)
     async def time_sortie(self):
-        now = datetime.now().strftime("%H:%M")
+        now = datetime.utcnow().strftime("%H:%M")
         if now == POST_SORTIE_AT_TIME:
             channel = self.client.get_channel(DEFAULT_CHANNEL)
             await self.worldstate.sortie(self.worldstate, ctx=channel)
@@ -28,9 +28,9 @@ class Scheduler(commands.Cog):
 
     @tasks.loop(minutes=60)
     async def time_baro(self):
-        now = datetime.now().strftime("%H")
+        now = datetime.utcnow().strftime("%H")
         if now == POST_BARO_AT_TIME:
-            if date.today().weekday() == 4: # Friday
+            if datetime.datetime.utcnow().date().weekday() == 4: # Friday
                 request = requests.get('https://api.warframestat.us/pc/voidTrader')
                 request.raise_for_status()
                 response = request.json()
@@ -42,7 +42,7 @@ class Scheduler(commands.Cog):
     @commands.command(name='currenttime', help='Check current system time', hidden=True)
     async def currenttime(self, ctx):
         try:
-            await ctx.send(f"It is currently {datetime.now().strftime('%m/%d/%Y %H:%M')}")
+            await ctx.send(f"It is currently {datetime.utcnow().strftime('%m/%d/%Y %H:%M')}\nThis bot is scheduled to post sorties at {POST_SORTIE_AT_TIME} and Baro visits at {POST_BARO_AT_TIME}")
         except Exception as e:
             await ctx.send(f"🛑 An error occured! 🛑 \n```{traceback.format_exc()}```")
 
