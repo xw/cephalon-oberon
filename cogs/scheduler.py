@@ -30,7 +30,7 @@ class Scheduler(commands.Cog):
     async def time_baro(self):
         now = datetime.utcnow().strftime("%H")
         if now == POST_BARO_AT_TIME:
-            if datetime.datetime.utcnow().date().weekday() == 4: # Friday
+            if datetime.utcnow().date().weekday() == 4: # Friday
                 request = requests.get('https://api.warframestat.us/pc/voidTrader')
                 request.raise_for_status()
                 response = request.json()
