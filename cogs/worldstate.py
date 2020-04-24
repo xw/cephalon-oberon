@@ -202,7 +202,7 @@ class Worldstate(commands.Cog):
 
             items_string = ""
             for item in response['inventory']:
-                items_string += f"**{item['item']}** ({item['ducats']} Ducats\n"
+                items_string += f"**{item['item']}** ({item['ducats']} Ducats)\n"
             if not items_string:
                 items_string = "*No items available*"
 
