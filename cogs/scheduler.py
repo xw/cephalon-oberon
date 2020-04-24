@@ -39,10 +39,10 @@ class Scheduler(commands.Cog):
                     await self.worldstate.baro(self.worldstate, ctx=channel)
 
     # Checks current fissures and their time remaining
-    @commands.command(name='currenttime', help='Check current system time', hidden=True)
-    async def currenttime(self, ctx):
+    @commands.command(name='debugscheduler', help='Check current system time', hidden=True)
+    async def debugscheduler(self, ctx):
         try:
-            await ctx.send(f"It is currently {datetime.utcnow().strftime('%m/%d/%Y %H:%M')}\nThis bot is scheduled to post sorties at {POST_SORTIE_AT_TIME} and Baro visits at {POST_BARO_AT_TIME}")
+            await ctx.send(f"It is currently {datetime.utcnow().strftime('%m/%d/%Y %H:%M')}\nThis bot is scheduled to post sorties at {POST_SORTIE_AT_TIME} and Baro visits at {POST_BARO_AT_TIME} to channel {DEFAULT_CHANNEL}")
         except Exception as e:
             await ctx.send(f"🛑 An error occured! 🛑 \n```{traceback.format_exc()}```")
 
