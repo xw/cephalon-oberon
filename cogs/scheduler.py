@@ -23,8 +23,6 @@ class Scheduler(commands.Cog):
         if now == POST_SORTIE_AT_TIME:
             channel = self.client.get_channel(DEFAULT_CHANNEL)
             await self.worldstate.sortie(self.worldstate, ctx=channel)
-        # await self.worldstate.sortie(self.worldstate, ctx=channel)
-        # await self.worldstate.baro(self.worldstate, ctx=channel)
 
     @tasks.loop(minutes=60)
     async def time_baro(self):
@@ -35,7 +33,7 @@ class Scheduler(commands.Cog):
                 request.raise_for_status()
                 response = request.json()
                 if response['active']:
-                    channel = self.client.get_channel(152673197756514304)
+                    channel = self.client.get_channel(DEFAULT_CHANNEL)
                     await self.worldstate.baro(self.worldstate, ctx=channel)
 
     # Checks current fissures and their time remaining
